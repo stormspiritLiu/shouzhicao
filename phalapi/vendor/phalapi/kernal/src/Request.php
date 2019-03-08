@@ -194,11 +194,7 @@ class Request {
         $rs = Parser::format($rule['name'], $rule, $data);
 
         if ($rs === NULL && (isset($rule['require']) && $rule['require'])) {
-            // 支持自定义友好的错误提示信息，并支持i18n国际翻译
-            $message = isset($rule['message'])
-                ? T($rule['message'])
-                : T('{name} require, but miss', array('name' => $rule['name']));
-            throw new BadRequestException($message);
+            throw new BadRequestException(T('{name} require, but miss', array('name' => $rule['name'])));
         }
 
         return $rs;

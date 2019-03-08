@@ -131,7 +131,7 @@ class Tool {
         }
         $xml .= "<$root>";
         foreach ($arr as $key=>$val){
-            if(is_array($val) || is_object($val)){
+            if(is_array($val)){
                 $xml.=self::arrayToXml($val,"$key",$num);
             } else {
                 $xml.="<".$key."><![CDATA[".$val."]]></".$key.">";
