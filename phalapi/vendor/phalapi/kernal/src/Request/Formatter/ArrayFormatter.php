@@ -34,10 +34,7 @@ class ArrayFormatter extends BaseFormatter implements Formatter {
                 $rs = json_decode($rs, TRUE);
 
                 if (!empty($value) && $rs === NULL) {
-                    $message = isset($rule['message']) 
-                        ? \PhalApi\T($rule['message']) 
-                        : \PhalApi\T('{name} illegal json data', array('name' => $rule['name']));
-                    throw new BadRequestException($message);
+                    throw new BadRequestException(\PhalApi\T('{name} illegal json data', array('name' => $rule['name'])));
                 }
             } else {
                 $rs = array($rs);
