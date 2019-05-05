@@ -22,7 +22,11 @@ class User extends Api {
             'recharge' => array(
                 'user_id' => array('name' => 'user_id', 'require' => true, 'type' => 'int', 'desc' => '用户id'),
                 'amount' => array('name' => 'amount', 'require' => true, 'type' => 'int', 'desc' => '充值数额'),
-            )
+            ),
+            'like' => array(
+                'user_id' => array('name' => 'user_id', 'require' => true, 'type' => 'int', 'desc' => '用户id'),
+                'game_id' => array('name' => 'game_id', 'require' => true, 'type' => 'int', 'desc' => '游戏id'),
+            ),
         );
     }
     /**
@@ -74,5 +78,20 @@ class User extends Api {
         $domain = new UserDomain();
 
         return $domain->recharge($user_id,$amount);
+    }
+
+    /**
+     * 收藏接口
+     * @desc 我的收藏接口
+     * @return int code 收藏结果状态码
+     * @return string message 收藏结果说明
+     */
+    public function like() {
+        $user_id = $this->user_id;
+        $game_id = $this->game_id;
+
+        $domain = new UserDomain();
+
+        return $domain->like($user_id,$game_id);
     }
 } 

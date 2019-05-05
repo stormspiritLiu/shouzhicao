@@ -9,6 +9,7 @@
 namespace App\Domain;
 
 use App\Model\User as UserModel;
+use App\Model\User\Game as UserGameModel;
 use App\Model\Recharge as RechargeModel;
 
 class User
@@ -55,5 +56,16 @@ class User
             ));
         }
         return $result;
+    }
+
+    /** 用户钻石充值
+     * @param int $user_id 用户id
+     * @param int $game_id 游戏id
+     * @return mixed
+     */
+    public function like($user_id, $game_id)
+    {
+        $model = new UserGameModel();
+        return $model->like($user_id,$game_id);
     }
 }
