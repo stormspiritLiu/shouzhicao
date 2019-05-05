@@ -9,6 +9,7 @@
 namespace App\Domain;
 
 use App\Model\User as UserModel;
+use App\Model\Recharge as RechargeModel;
 
 class User
 {
@@ -33,5 +34,26 @@ class User
     {
         $model = new UserModel();
         return $model->register($username,$password,$phoneNum);
+    }
+
+    /** 用户钻石充值
+     * @param int $user_id 用户id
+     * @param int $amount 充值数额
+     * @return mixed
+     */
+    public function recharge($user_id, $amount)
+    {
+        $model = new UserModel();
+        $result = $model->recharge($user_id, $amount);
+        if($result['code'] == 1){
+            //充值成功，更新用户充值表
+            $rechargeModel = new RechargeModel();
+            $rechargeModel->insert(array(
+                'userId'    => $user_id,
+                'amount'    => $amount,
+                'time'      => date("Y-m-d H:i:s",time())
+            ));
+        }
+        return $result;
     }
 }

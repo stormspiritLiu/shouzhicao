@@ -18,12 +18,16 @@ class User extends Api {
                 'username' => array('name' => 'username', 'require' => true, 'desc' => '用户名'),
                 'password' => array('name' => 'password', 'require' => true, 'desc' => '密码'),
                 'phoneNum' => array('name' => 'phoneNum', 'require' => true, 'desc' => '手机号'),
+            ),
+            'recharge' => array(
+                'user_id' => array('name' => 'user_id', 'require' => true, 'type' => 'int', 'desc' => '用户id'),
+                'amount' => array('name' => 'amount', 'require' => true, 'type' => 'int', 'desc' => '充值数额'),
             )
         );
     }
     /**
      * 登录接口
-     * @desc 根据账号和密码进行登录操作,测试数据 username=test，password=test123
+     * @desc 测试数据 username=test，password=test123
      * @return int id  用户ID
      * @return string name  用户名
      * @return string phoneNum 手机号
@@ -44,7 +48,7 @@ class User extends Api {
     }
 
     /**
-     * 登录接口
+     * 注册接口
      * @desc 进行注册操作
      */
     public function register() {
@@ -55,5 +59,20 @@ class User extends Api {
         $domain = new UserDomain();
 
         return $domain->register($username,$password,$phoneNum);
+    }
+
+    /**
+     * 充值接口
+     * @desc 钻石充值接口
+     * @return int code 充值结果状态码
+     * @return string message 充值结果说明
+     */
+    public function recharge() {
+        $user_id = $this->user_id;      // 用户参数
+        $amount = $this->amount;        // 数额参数
+
+        $domain = new UserDomain();
+
+        return $domain->recharge($user_id,$amount);
     }
 } 

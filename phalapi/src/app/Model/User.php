@@ -40,4 +40,24 @@ class User extends NotORM
         }
 
     }
+
+    /** 用户钻石充值
+     * @param int $user_id 用户id
+     * @param int $amount 充值数额
+     * @return mixed
+     */
+    public function recharge($user_id, $amount)
+    {
+        $orm = $this->getORM();
+        if($orm->where('id=?', $user_id)->fetchAll() == NULL){
+            return array('code' => -1,'message' => '用户不存在');
+        } else{
+            $row = $orm->where('id', $user_id)->update(
+                array('diamond' => new \NotORM_Literal("diamond + $amount"))
+            );
+            if($row == 1){
+                return array('code' => 1,'message' => '充值成功');
+            }
+        }
+    }
 }
