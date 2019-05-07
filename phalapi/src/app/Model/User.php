@@ -31,7 +31,7 @@ class User extends NotORM
     public function register($username,$password,$phoneNum)
     {
         if ($this->getORM()->where('name=?',$username)->fetchAll() != NULL){
-            return "该用户名已注册";;
+            return "该用户名已注册";
         } else if ($this->getORM()->where('phoneNum=?',$phoneNum)->fetchAll() != NULL){
             return "该手机号已注册";
         } else{
@@ -48,16 +48,34 @@ class User extends NotORM
      */
     public function recharge($user_id, $amount)
     {
-        $orm = $this->getORM();
-        if($orm->where('id=?', $user_id)->fetchAll() == NULL){
+        if($this->getORM()->where('id=?', $user_id)->fetchAll() == NULL){
             return array('code' => -1,'message' => '用户不存在');
         } else{
-            $row = $orm->where('id', $user_id)->update(
+            $row = $this->getORM()->where('id', $user_id)->update(
                 array('diamond' => new \NotORM_Literal("diamond + $amount"))
             );
             if($row == 1){
                 return array('code' => 1,'message' => '充值成功');
             }
         }
+    }
+
+    public function nickname($user_id,$new_name)
+    {
+        if($this->getORM()->where('id=?', $user_id)->fetchAll() == NULL){
+            return array('code' => -1,'message' => '用户不存在');
+        }
+        if ($this->getORM()->where('name=?', $new_name)->fetchAll() != NULL) {
+            return array('code' => -1,'message' => '用户名已存在');
+        }
+        $result = $this->getORM()->where('id=?', $user_id)->update(array('name' => $new_name));
+        if($result == 1){
+            return array('code' => 1,'message' => '更新成功');
+        } else if($result == 0){
+            return array('code' => 0,'message' => '无更新，或者数据没变化');
+        } else{
+            return array('code' => -1,'message' => '更新异常、失败');
+        }
+
     }
 }

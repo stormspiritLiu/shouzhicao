@@ -27,6 +27,10 @@ class User extends Api {
                 'user_id' => array('name' => 'user_id', 'require' => true, 'type' => 'int', 'desc' => '用户id'),
                 'game_id' => array('name' => 'game_id', 'require' => true, 'type' => 'int', 'desc' => '游戏id'),
             ),
+            'nickname' => array(
+                'user_id' => array('name' => 'user_id', 'require' => true, 'type' => 'int', 'desc' => '用户id'),
+                'new_name' => array('name' => 'new_name', 'require' => true, 'type' => 'string', 'desc' => '用户新昵称'),
+            ),
         );
     }
     /**
@@ -67,7 +71,7 @@ class User extends Api {
 
     /**
      * 充值接口
-     * @desc 钻石充值接口
+     * @desc 钻石充值接口,测试数据 user_id=1
      * @return int code 充值结果状态码
      * @return string message 充值结果说明
      */
@@ -93,5 +97,20 @@ class User extends Api {
         $domain = new UserDomain();
 
         return $domain->like($user_id,$game_id);
+    }
+
+    /**
+     * 修改昵称接口
+     * @desc 测试数据 user_id=1
+     * @return int code 收藏结果状态码
+     * @return string message 收藏结果说明
+     */
+    public function nickname() {
+        $user_id = $this->user_id;
+        $new_name = $this->new_name;
+
+        $domain = new UserDomain();
+
+        return $domain->nickname($user_id,$new_name);
     }
 } 

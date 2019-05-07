@@ -58,7 +58,7 @@ class User
         return $result;
     }
 
-    /** 用户钻石充值
+    /** 我的收藏
      * @param int $user_id 用户id
      * @param int $game_id 游戏id
      * @return mixed
@@ -67,5 +67,12 @@ class User
     {
         $model = new UserGameModel();
         return $model->like($user_id,$game_id);
+    }
+
+    public function nickname($user_id, $new_name)
+    {
+        $model = new UserModel();
+        return $model->nickname($user_id,$new_name);
+
     }
 }
