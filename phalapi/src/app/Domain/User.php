@@ -75,4 +75,9 @@ class User
         return $model->nickname($user_id,$new_name);
 
     }
+
+    public function avatar($user_id, $avatar){
+        $model = new UserModel();
+        $model->avatar($user_id, $avatar);
+    }
 }

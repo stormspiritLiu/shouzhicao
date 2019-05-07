@@ -78,4 +78,9 @@ class User extends NotORM
         }
 
     }
+
+    public function avatar($user_id,$avatar)
+    {
+        return $this->getORM()->where('id', $user_id)->update(array('avatar' => $avatar));
+    }
 }

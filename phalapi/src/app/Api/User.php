@@ -31,6 +31,18 @@ class User extends Api {
                 'user_id' => array('name' => 'user_id', 'require' => true, 'type' => 'int', 'desc' => '用户id'),
                 'new_name' => array('name' => 'new_name', 'require' => true, 'type' => 'string', 'desc' => '用户新昵称'),
             ),
+            'avatar' => array(
+                'user_id' => array('name' => 'user_id', 'require' => true, 'type' => 'int', 'desc' => '用户id'),
+                'file' => array(
+                    'name' => 'file',        // 客户端上传的文件字段
+                    'type' => 'file',
+                    'require' => true,
+                    'max' => 10485760,        // 最大允许上传10M = 10 * 1024 * 1024,
+                    'range' => array('image/jpeg', 'image/png'),  // 允许的文件格式
+                    'ext' => 'jpeg,jpg,png', // 允许的文件扩展名
+                    'desc' => '待上传的图片文件',
+                ),
+            ),
         );
     }
     /**
@@ -45,6 +57,9 @@ class User extends Api {
      * @return int healthyBeans 健康豆
      * @return int experience 经验值
      * @return int diamond 钻石数量
+     * @return url avatar 头像路径
+     * @return int lock 是否锁定，0：锁定，1：未锁定
+     * @return int delete_time 删除时间
      */
     public function login() {
         $username = $this->username;   // 账号参数
@@ -112,5 +127,35 @@ class User extends Api {
         $domain = new UserDomain();
 
         return $domain->nickname($user_id,$new_name);
+    }
+
+    /**
+     * 图片文件上传
+     * @desc 只能上传单个图片文件
+     * @return int code 操作状态码，1成功，0失败
+     * @return url string 成功上传时返回的图片URL
+     */
+    public function avatar()
+    {
+        $rs = array('code' => 0, 'url' => '');
+
+        $tmpName = $this->file['tmp_name'];
+
+        $name = md5($this->file['name'] . $_SERVER['REQUEST_TIME']);
+        $ext = strrchr($this->file['name'], '.');
+        $uploadFolder = sprintf('%s/public/avatar/', API_ROOT);
+        if (!is_dir($uploadFolder)) {
+            mkdir($uploadFolder, 0777);
+        }
+
+        $imgPath = $uploadFolder . $name . $ext;
+        if (move_uploaded_file($tmpName, $imgPath)) {
+            $rs['code'] = 1;
+            $rs['url'] = sprintf('http://%s/avatar/%s%s', $_SERVER['SERVER_NAME'], $name, $ext);
+            $domain = new UserDomain();
+            $domain->avatar($this->user_id, $rs['url']);
+        }
+
+        return $rs;
     }
 } 
