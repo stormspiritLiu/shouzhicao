@@ -32,7 +32,7 @@ class Game
         $gameIdList = $model->gameIdList();
         $result = array();
         foreach ($gameIdList as $value){
-            $game = $this->findByID($value['id']);
+            $game = $model->findByID($value['id']);
             array_push($result, $game[0]);
         }
         return $result;
