@@ -25,15 +25,15 @@ class Game
 
     /**
      * 游戏列表接口
-     * @param int $userId 用户id
      * @return mixed
      */
-    public function gameList($userId) {
+    public function gameList() {
         $model = new GameModel();
         $gameIdList = $model->gameIdList();
         $result = array();
         foreach ($gameIdList as $value){
-            $result[$value['id']] = $model->gameList($userId,$value['id']);
+            $game = $this->findByID($value['id']);
+            array_push($result, $game[0]);
         }
         return $result;
     }

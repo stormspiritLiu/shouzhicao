@@ -22,7 +22,6 @@ class Game extends Api
                 'id' => array('name' => 'id', 'require' => true, 'desc' => '游戏Id'),
             ),
             'gameList' => array(
-                'userId' => array('name' => 'userId', 'require' => true, 'desc' => '用户Id'),
             )
         );
     }
@@ -51,9 +50,8 @@ class Game extends Api
      * @desc 查询用户的所有游戏状态
      */
     public function gameList() {
-        $userId = $this->userId;   // 用户Id
         $domain = new GameDomain();
 
-        return $domain->gameList($userId);
+        return $domain->gameList();
     }
 }
