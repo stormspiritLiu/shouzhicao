@@ -27,12 +27,14 @@ class Game
      * 游戏列表接口
      * @return mixed
      */
-    public function gameList() {
+    public function gameList($userId) {
         $model = new GameModel();
         $gameIdList = $model->gameIdList();
         $result = array();
         foreach ($gameIdList as $value){
             $game = $model->findByID($value['id']);
+            $like = $model->gameList($userId, $value['id']);
+            $game[0]['like'] = $like[0]['like'];
             array_push($result, $game[0]);
         }
         return $result;
