@@ -43,6 +43,11 @@ class User extends Api {
                     'desc' => '待上传的图片文件',
                 ),
             ),
+            'experience' => array(
+                'user_id' => array('name' => 'user_id', 'require' => true, 'type' => 'int', 'desc' => '用户id'),
+                'exp' => array('name' => 'exp', 'require' => true, 'type' => 'int', 'desc' => '用户经验值'),
+                'level' => array('name' => 'level', 'require' => true, 'type' => 'int', 'desc' => '用户等级')
+            )
         );
     }
     /**
@@ -157,5 +162,19 @@ class User extends Api {
         }
 
         return $rs;
+    }
+
+    /**
+     * 修改用户经验等级接口
+     * @desc 完成游戏后记得调用,请不要调用不存在的user_id
+     */
+    public function experience() {
+        $user_id = $this->user_id;
+        $exp = $this->exp;
+        $level = $this->level;
+
+        $domain = new UserDomain();
+
+        return $domain->experience($user_id, $exp, $level);
     }
 } 

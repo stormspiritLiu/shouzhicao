@@ -80,4 +80,12 @@ class User
         $model = new UserModel();
         $model->avatar($user_id, $avatar);
     }
+
+    public function experience($user_id, $exp, $level){
+        $model = new UserModel();
+        return $model->update($user_id, array(
+            'experience' => $exp,
+            'level' => $level
+        ));
+    }
 }
