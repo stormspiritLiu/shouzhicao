@@ -10,6 +10,7 @@ namespace App\Api;
 
 use PhalApi\Api;
 use App\Domain\Game as GameDomain;
+use App\Domain\User as UserDomain;
 
 /**
  * 游戏模块接口服务
@@ -81,6 +82,12 @@ class Game extends Api
         return $domain->gameList($userId);
     }
 
+    /**
+     * 游戏解锁接口
+     * @desc 用户请不要多次解锁同一个游戏
+     * @return int code 解锁结果状态码
+     * @return string message 解锁结果说明
+     */
     public function unlock(){
         $userId = $this->userId;
         $gameId = $this->gameId;
@@ -88,5 +95,19 @@ class Game extends Api
         return $domain->unlock($userId, $gameId);
     }
 
+    /**
+     * 游戏完成接口
+     * @desc 我的收藏接口
+     * @return int code 收藏结果状态码
+     * @return string message 收藏结果说明
+     */
+    public function complete(){
+        $userId = $this->userId;
+        $gameId = $this->gameId;
+        $score = $this->score;
+        $star = $this->star;
 
+        $gameDomain = new GameDomain();
+        return $gameDomain->complete($userId, $gameId, $score, $star);
+    }
 }

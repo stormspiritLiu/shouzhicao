@@ -10,6 +10,7 @@ namespace App\Domain;
 
 use App\Model\Game as GameModel;
 use App\Model\User\Game as UserGameModel;
+use App\Model\Reward as RewardModel;
 
 class Game
 {
@@ -48,7 +49,6 @@ class Game
 
     /**
      * 游戏解锁接口
-     * @desc 用户请不要多次解锁同一个游戏
      * @return mixed
      */
     public function unlock($userId, $gameId) {
@@ -64,5 +64,57 @@ class Game
         } else{
             return array('code' => 0, 'message' => '错误，用户早已解锁过此游戏');
         }
+    }
+
+    /**
+     * 游戏解锁接口
+     * @return mixed
+     */
+    public function complete(
+        $userId,
+        $gameId,
+        $score,
+        $star
+    ) {
+        $gModel = new GameModel();
+        $game = $gModel->findByID($gameId);
+        //获得经验记录
+        switch ($star){
+            case 1:
+                $percent = 0.3;
+                break;
+            case 2:
+                $percent = 0.7;
+                break;
+            case 3:
+                $percent = 1;
+                break;
+            default:
+                $percent = 0;
+                break;
+        }
+
+        $rModel = new RewardModel();
+        $rModel->insert(array(
+            'userId'    => $userId,
+            'award'     => $game['award'] * $percent,
+            'experience'=> $game['experience'] * $percent,
+            'source'    => 1,
+            'time'      => date("Y-m-d H:i:s", time())
+        ));
+        //玩家游戏记录更新
+        $ugModel = new UserGameModel();
+        $playRecord = $ugModel->findByTwoID($userId, $gameId);
+        $bestScore = max($score, $playRecord['score']);
+        $bestStar = max($star, $playRecord['star']);
+        if ($score > $playRecord['score'] or $star > $playRecord['star']){
+            $ugModel->update($playRecord['id'], array(
+                'bestScore' => $bestScore,
+                'star'      => $bestStar,
+                'updateTime'=> date("Y-m-d H:i:s", time())
+            ));
+            return array('message' => '新纪录！');
+        }
+        return array('message' => '再接再厉');
     }
 }
