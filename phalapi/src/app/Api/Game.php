@@ -30,7 +30,7 @@ class Game extends Api
     /**
      * 根据id获取游戏单条信息
      * @desc 测试数据 id=1
-     * @param string $id 游戏id
+     * @param int $id 游戏id
      * @return int id  游戏id
      * @return string name  游戏名
      * @return int level 等级
@@ -48,6 +48,18 @@ class Game extends Api
 
     /**
      * 游戏列表接口
+     * @return int id           游戏id
+     * @return string name         游戏名称
+     * @return int level        游戏等级
+     * @return int award        通关代币奖励
+     * @return int experience   通关经验值
+     * @return int difficulty   难度等级(1：简单，2：中等，3：困难)
+     * @return float price        游戏价格
+     * @return string music_name   音乐名称
+     * @return string path         音乐路径
+     * @return int time         音乐时长
+     * @return int lock         解锁情况(1解锁 0未解锁)
+     * @return int like         收藏情况(1收藏 0未收藏)
      * @desc 查询用户的所有游戏状态
      */
     public function gameList() {

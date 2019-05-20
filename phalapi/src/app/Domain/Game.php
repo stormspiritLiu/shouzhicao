@@ -34,7 +34,14 @@ class Game
         foreach ($gameIdList as $value){
             $game = $model->findByID($value['id']);
             $like = $model->gameList($userId, $value['id']);
-            $game[0]['like'] = $like[0]['like'];
+            if($like == null){
+                $game[0]['lock'] = 0;
+                $game[0]['like'] = 0;
+            } else{
+                $game[0]['lock'] = 1;
+                $game[0]['like'] = $like[0]['like'];
+            }
+
             array_push($result, $game[0]);
         }
         return $result;
