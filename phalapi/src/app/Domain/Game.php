@@ -34,13 +34,11 @@ class Game
         $result = array();
         foreach ($gameIdList as $value){
             $game = $model->findByID($value['id']);
-            $like = $model->gameList($userId, $value['id']);
-            if($like == null){
-                $game[0]['lock'] = 0;
-                $game[0]['like'] = 0;
+            $playRecord = $model->gameList($userId, $value['id']);
+            if($playRecord == null){
+                $game[0]['playRecord'] = null;
             } else{
-                $game[0]['lock'] = 1;
-                $game[0]['like'] = $like[0]['like'];
+                $game[0]['playRecord'] = $playRecord[0];
             }
 
             array_push($result, $game[0]);

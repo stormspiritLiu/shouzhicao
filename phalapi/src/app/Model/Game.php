@@ -56,7 +56,7 @@ class Game extends NotORM
      */
     public function gameList($userId,$gameId)
     {
-        $sql = 'SELECT g.id as gameId,ug.bestScore,ug.completionDegree,ug.updateTime,ug.like  '
+        $sql = 'SELECT ug.bestScore,ug.star,ug.updateTime,ug.like  '
             . 'FROM yiyon_game AS g LEFT JOIN yiyon_user_game AS ug '
             . 'ON g.id = ug.gameId '
             . 'where ug.userId=? and ug.gameId=? '
