@@ -12,7 +12,7 @@ use PhalApi\Model\NotORMModel as NotORM;
 
 class Game extends NotORM
 {
-    public function like($user_id,$game_id)
+    public function like($user_id, $game_id)
     {
         $orm = $this->getORM();
         $like = $orm->where('userId=? AND gameId=?',$user_id,$game_id)->fetchOne();
@@ -33,5 +33,9 @@ class Game extends NotORM
             ));
             return array('code' => 1, 'message' => '已收藏');
         }
+    }
+
+    public function findByTwoID($user_id, $game_id){
+        return $this->getORM()->where('userId=? AND gameId=?',$user_id,$game_id)->fetchOne();
     }
 }

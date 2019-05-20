@@ -23,6 +23,10 @@ class Game extends Api
             ),
             'gameList' => array(
                 'userId' => array('name' => 'userId', 'require' => true, 'desc' => '玩家Id'),
+            ),
+            'unlock' => array(
+                'userId' => array('name' => 'userId', 'require' => true, 'desc' => '玩家Id'),
+                'gameId' => array('name' => 'gameId', 'require' => true, 'desc' => '游戏Id'),
             )
         );
     }
@@ -67,5 +71,12 @@ class Game extends Api
         $domain = new GameDomain();
 
         return $domain->gameList($userId);
+    }
+
+    public function unlock(){
+        $userId = $this->userId;
+        $gameId = $this->gameId;
+        $domain = new GameDomain();
+        return $domain->unlock($userId, $gameId);
     }
 }

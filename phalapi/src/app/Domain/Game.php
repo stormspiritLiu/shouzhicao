@@ -9,6 +9,7 @@
 namespace App\Domain;
 
 use App\Model\Game as GameModel;
+use App\Model\User\Game as UserGameModel;
 
 class Game
 {
@@ -45,5 +46,25 @@ class Game
             array_push($result, $game[0]);
         }
         return $result;
+    }
+
+    /**
+     * 游戏解锁接口
+     * @desc 用户请不要多次解锁同一个游戏
+     * @return mixed
+     */
+    public function unlock($userId, $gameId) {
+        $model = new UserGameModel();
+        $user_game = $model->findByTwoID($userId, $gameId);
+        if($user_game == null){
+            $model->insert(array(
+                'userId' => $userId,
+                'gameId' => $gameId,
+                'updateTime' => date("Y-m-d H:i:s", time())
+            ));
+            return array('code' => 1, 'message' => '游戏已解锁');
+        } else{
+            return array('code' => 0, 'message' => '错误，用户早已解锁过此游戏');
+        }
     }
 }
