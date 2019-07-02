@@ -23,7 +23,7 @@ class Fingerprint extends Api
                 'userId' => array('name' => 'userId', 'require' => true, 'type' => 'int', 'desc' => '用户ID'),
                 'machineId' => array('name' => 'machineId', 'require' => true, 'type' => 'string', 'desc' => '机器ID'),
                 'fingerId' => array('name' => 'fingerId', 'require' => true, 'type' => 'int', 'desc' => '手指编号', 'min' => 0, 'max' => 9),
-                'fingerValue' => array('name' => 'fingerValue', 'require' => true, 'type' => 'int', 'desc' => '手指位置', 'min' => 0, 'max' => 99),
+                'fingerValue' => array('name' => 'fingerValue', 'require' => true, 'type' => 'int', 'desc' => '手指位置', 'min' => -1, 'max' => 99),
             )
         );
     }
