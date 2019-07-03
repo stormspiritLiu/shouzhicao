@@ -9,7 +9,12 @@ class Fingerprint
 {
     public function getFingerPrint($userId, $machineId){
         $fModel = new FingerprintModel();
-        return $fModel->getFingerPrint($userId, $machineId);
+        $info = $fModel->getFingerPrint($userId, $machineId);
+        if(!$info){
+            return array('code' => 0);
+        } else{
+            return $info;
+        }
     }
 
     public function setFingerPrint($userId, $machineId, $fingerId, $fingerValue){
