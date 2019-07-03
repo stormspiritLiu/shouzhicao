@@ -24,6 +24,20 @@ class Fingerprint extends Api
                 'machineId' => array('name' => 'machineId', 'require' => true, 'type' => 'string', 'desc' => '机器ID'),
                 'fingerId' => array('name' => 'fingerId', 'require' => true, 'type' => 'int', 'desc' => '手指编号', 'min' => 0, 'max' => 9),
                 'fingerValue' => array('name' => 'fingerValue', 'require' => true, 'type' => 'int', 'desc' => '手指位置', 'min' => -1, 'max' => 99),
+            ),
+            'setALLFingerPrint' => array(
+                'userId' => array('name' => 'userId', 'require' => true, 'type' => 'int', 'desc' => '用户ID'),
+                'machineId' => array('name' => 'machineId', 'require' => true, 'type' => 'string', 'desc' => '机器ID'),
+                'f0' => array('name' => 'fingerValue', 'require' => true, 'type' => 'int', 'desc' => '手指0', 'min' => -1, 'max' => 99),
+                'f1' => array('name' => 'fingerValue', 'require' => true, 'type' => 'int', 'desc' => '手指1', 'min' => -1, 'max' => 99),
+                'f2' => array('name' => 'fingerValue', 'require' => true, 'type' => 'int', 'desc' => '手指2', 'min' => -1, 'max' => 99),
+                'f3' => array('name' => 'fingerValue', 'require' => true, 'type' => 'int', 'desc' => '手指3', 'min' => -1, 'max' => 99),
+                'f4' => array('name' => 'fingerValue', 'require' => true, 'type' => 'int', 'desc' => '手指4', 'min' => -1, 'max' => 99),
+                'f5' => array('name' => 'fingerValue', 'require' => true, 'type' => 'int', 'desc' => '手指5', 'min' => -1, 'max' => 99),
+                'f6' => array('name' => 'fingerValue', 'require' => true, 'type' => 'int', 'desc' => '手指6', 'min' => -1, 'max' => 99),
+                'f7' => array('name' => 'fingerValue', 'require' => true, 'type' => 'int', 'desc' => '手指7', 'min' => -1, 'max' => 99),
+                'f8' => array('name' => 'fingerValue', 'require' => true, 'type' => 'int', 'desc' => '手指8', 'min' => -1, 'max' => 99),
+                'f9' => array('name' => 'fingerValue', 'require' => true, 'type' => 'int', 'desc' => '手指9', 'min' => -1, 'max' => 99),
             )
         );
     }
@@ -49,5 +63,27 @@ class Fingerprint extends Api
     public function setFingerPrint(){
         $fDomain = new FingerprintDomain();
         return $fDomain->setFingerPrint($this->userId, $this->machineId, $this->fingerId, $this->fingerValue);
+    }
+
+    /**
+     * 一次性录入指纹信息接口
+     * @desc 之前无该用户和机器信息则新建，有则更新
+     * @return array code 0为失败，1为成功
+     */
+    public function setAllFingerPrint(){
+        $fDomain = new FingerprintDomain();
+        $data = array(
+            'f0' => $this->f0,
+            'f1' => $this->f1,
+            'f2' => $this->f2,
+            'f3' => $this->f3,
+            'f4' => $this->f4,
+            'f5' => $this->f5,
+            'f6' => $this->f6,
+            'f7' => $this->f7,
+            'f8' => $this->f8,
+            'f9' => $this->f9,
+        );
+        return $fDomain->setAllFingerPrint($this->userId, $this->machineId, $data);
     }
 }

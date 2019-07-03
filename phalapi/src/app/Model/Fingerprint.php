@@ -37,4 +37,29 @@ class Fingerprint extends NotORM
             return $this->getORM()->insert($data);
         }
     }
+
+    public function setAllFingerPrint($userId, $machineId, $data){
+        $record = $this->getORM()
+            ->where("userId", $userId)
+            ->where("machineId", $machineId)
+            ->count();
+        if($record == 1){
+            //执行更新操作
+            return $this->getORM()
+                ->where("userId", $userId)
+                ->where("machineId", $machineId)
+                ->update($data);
+        } else{
+            //执行插入操作
+            $newRecord = array(
+                'userId' => $userId,
+                'machineId' => $machineId,
+            );
+            $this->getORM()->insert($newRecord);
+            return $this->getORM()
+                ->where("userId", $userId)
+                ->where("machineId", $machineId)
+                ->update($data);
+        }
+    }
 }

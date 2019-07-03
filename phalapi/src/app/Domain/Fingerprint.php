@@ -21,4 +21,14 @@ class Fingerprint
             return array('code' => 1);
         }
     }
+
+    public function setAllFingerPrint($userId, $machineId, $data){
+        $fModel = new FingerprintModel();
+        $info = $fModel->setAllFingerPrint($userId, $machineId, $data);
+        if($info === null){
+            return array('code' => 0);
+        } else{
+            return array('code' => 1);
+        }
+    }
 }
