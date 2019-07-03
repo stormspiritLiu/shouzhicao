@@ -46,7 +46,7 @@ class Game extends NotORM
      * @return mixed
      */
     public function gameIdList(){
-        return $this->getORM()->select('id')->fetchAll();
+        return $this->getORM()->select('id, level, small_level')->fetchAll();
     }
 
     /** 用户游戏通关情况接口

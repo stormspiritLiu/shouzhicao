@@ -117,4 +117,29 @@ class Game
         }
         return array('message' => '再接再厉');
     }
+
+    /**
+     *
+     */
+    public function nextGame($level, $small_level){
+        $model = new GameModel();
+        $gameIdList = $model->gameIdList();
+        $next1 = $next2 = 0;
+
+        foreach ($gameIdList as $value){
+            if($value['level'] == $level && $value['small_level'] - $small_level == 1){
+                $next1 = $value['id'];
+            }
+            if($value['level'] - $level == 1 && $value['small_level'] == 1){
+                $next2 = $value['id'];
+            }
+        }
+        if ($next1){
+            return $next1;
+        } else if($next2){
+            return $next2;
+        } else{
+            return -1;
+        }
+    }
 }

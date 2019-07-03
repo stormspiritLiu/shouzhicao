@@ -34,6 +34,10 @@ class Game extends Api
                 'gameId' => array('name' => 'gameId', 'require' => true, 'desc' => '游戏Id'),
                 'score' => array('name' => 'score', 'require' => true, 'desc' => '指令集正确个数'),
                 'star' => array('name' => 'star', 'require' => true, 'desc' => '通关达成星星，30%达成度1星，60% 2星，90% 3星')
+            ),
+            'nextGame' => array(
+                'level' => array('name' => 'level', 'require' => true, 'desc' => '游戏大关'),
+                'small_level' => array('name' => 'small_level', 'require' => true, 'desc' => '游戏小关'),
             )
         );
     }
@@ -109,5 +113,15 @@ class Game extends Api
 
         $gameDomain = new GameDomain();
         return $gameDomain->complete($userId, $gameId, $score, $star);
+    }
+
+    /**
+     * 查询下一关卡游戏id接口
+     * @desc 查询下一关卡游戏id接口.无下一关则返回null
+     * @return int id 下一关游戏id
+     */
+    public function nextGame(){
+        $gameDomain = new GameDomain();
+        return $gameDomain->nextGame($this->level, $this->small_level);
     }
 }
