@@ -13,7 +13,7 @@ class Fingerprint
         if(!$info){
             return array('code' => 0);
         } else{
-            return $info;
+            return array('code' => 1, 'info' => $info);
         }
     }
 

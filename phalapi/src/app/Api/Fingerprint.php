@@ -45,6 +45,8 @@ class Fingerprint extends Api
     /**
      * 获取指纹信息接口
      * @desc 测试数据 userId=1，machineId=1
+     * @return array
+     * @return int code 0不存在，1存在
      * @return int id
      * @return int userId 用户ID
      * @return string machineId  机器ID
