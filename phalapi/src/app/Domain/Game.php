@@ -135,9 +135,9 @@ class Game
             }
         }
         if ($next1){
-            return $next1;
+            return $model->findByID($next1);
         } else if($next2){
-            return $next2;
+            return $model->findByID($next2);
         } else{
             return -1;
         }
