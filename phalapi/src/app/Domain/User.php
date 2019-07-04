@@ -88,4 +88,9 @@ class User
             'level' => $level
         ));
     }
+
+    public function currency($user_id, $data){
+        $model = new UserModel();
+        return $model->update($user_id, $data);
+    }
 }

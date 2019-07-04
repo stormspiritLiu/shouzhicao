@@ -101,9 +101,9 @@ class Game extends Api
 
     /**
      * 游戏完成接口
-     * @desc 我的收藏接口
-     * @return int code 收藏结果状态码
-     * @return string message 收藏结果说明
+     * @desc 游戏完成接口
+     * @return int code 完成结果状态码
+     * @return string message 完成结果说明
      */
     public function complete(){
         $userId = $this->userId;

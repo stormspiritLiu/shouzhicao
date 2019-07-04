@@ -47,6 +47,12 @@ class User extends Api {
                 'user_id' => array('name' => 'user_id', 'require' => true, 'type' => 'int', 'desc' => '用户id'),
                 'exp' => array('name' => 'exp', 'require' => true, 'type' => 'int', 'desc' => '用户经验值'),
                 'level' => array('name' => 'level', 'require' => true, 'type' => 'int', 'desc' => '用户等级')
+            ),
+            'currency' => array(
+                'user_id' => array('name' => 'user_id', 'require' => true, 'type' => 'int', 'desc' => '用户id'),
+                'diamond' => array('name' => 'diamond', 'type' => 'int', 'desc' => '用户钻石'),
+                'healthyBeans' => array('name' => 'healthyBeans', 'type' => 'int', 'desc' => '用户健康豆'),
+                'energy' => array('name' => 'energy','type' => 'int', 'desc' => '用户体力')
             )
         );
     }
@@ -176,5 +182,28 @@ class User extends Api {
         $domain = new UserDomain();
 
         return $domain->experience($user_id, $exp, $level);
+    }
+
+    /**
+     * 修改用户体力、健康豆、钻石接口
+     * @desc 三个值均为选填项
+     * @return int data 更新行数
+     */
+    public function currency() {
+        $user_id = $this->user_id;
+
+        $data = array(
+            'diamond' => $this->diamond,
+            'energy' => $this->energy,
+            'healthyBeans' => $this->healthyBeans,
+        );
+
+        $data = array_filter($data,function ($v, $k){
+            return $v !== null;
+        },ARRAY_FILTER_USE_BOTH);
+
+        $domain = new UserDomain();
+
+        return $domain->currency($user_id, $data);
     }
 } 
