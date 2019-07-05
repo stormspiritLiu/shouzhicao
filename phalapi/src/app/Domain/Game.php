@@ -25,6 +25,18 @@ class Game
         return $data;
     }
 
+    public function findByTwoID($userId, $gameId){
+        $model = new GameModel();
+        $data = $model->findByID($gameId);
+        $data['0']['instruction'] = $model->findGameInstruction($gameId);
+        $playRecord = $model->gameList($userId, $gameId);
+        if($playRecord == null){
+            $data[0]['playRecord'] = null;
+        } else{
+            $data[0]['playRecord'] = $playRecord[0];
+        }
+        return $data;
+    }
     /**
      * 游戏列表接口
      * @return mixed
